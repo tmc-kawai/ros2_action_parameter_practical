@@ -1,0 +1,12 @@
+# === Goal ===
+# 目標とする充電率 [%] (0-100)
+int32 target_percent
+---
+# === Result ===
+bool success
+string message
+int32 final_percent
+---
+# === Feedback ===
+int32 current_percent
+string status

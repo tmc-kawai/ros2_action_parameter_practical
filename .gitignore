@@ -1,0 +1,15 @@
+# colcon / ROS2 build artifacts
+build/
+install/
+log/
+.ros/
+
+# Python
+__pycache__/
+*.pyc
+
+# shell history written inside the container (HOME=/ros2_ws)
+.bash_history
+
+# editor
+.vscode/
