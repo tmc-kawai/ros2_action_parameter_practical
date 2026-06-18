@@ -17,6 +17,10 @@ ROS2 では「ノード」と呼ばれる小さなプログラム同士が通信
 | **Service** | 1回の「お願い→返事」（即終わる） | 「今の状態を教えて」 |
 | **Action** | 時間のかかる「お願い」。途中経過(feedback)が届き、最後に結果(result)が返る。**途中キャンセルも可能** | ロボットを目的地まで移動、充電する |
 
+![図1: 通信方式の比較（Topic / Service / Action）](images/fig1_comm_comparison.png)
+
+*図1: 通信方式の比較（Topic / Service / Action）*
+
 - **Parameter（パラメータ）**：ノードの「設定値」。実行中に外から変更できます。
   （例：充電の刻み幅、メッセージの装飾文字など）
 
@@ -38,6 +42,12 @@ int32  final_percent   # 最終的な充電率
 int32  current_percent # 現在の充電率
 string status          # 状態の文字列
 ```
+
+`---`（ハイフン3つ）で Goal / Result / Feedback の3ブロックに区切られています。
+
+![図2: Action の構造（Goal / Feedback / Result）](images/fig2_action_structure.png)
+
+*図2: Action の構造（Goal → Feedback → Result）*
 
 ---
 
@@ -119,6 +129,13 @@ ros2 interface show action_param_interfaces/action/AutoCharge
 
 ## 2. Action を動かす
 
+このあとは複数のターミナルを使い分けます。下の図のように「サーバ役」「goal を送る役」
+「feedback を覗く役」と役割が分かれます。
+
+![図3: ターミナルの役割分担](images/fig3_terminals.png)
+
+*図3: ターミナルの役割分担（サーバ / goal送信 / feedback確認）*
+
 ### 2-1.【ターミナル1】充電サーバを起動
 
 ```bash
@@ -177,6 +194,10 @@ ros2 run action_param_demo auto_charge_client --ros-args -p target_percent:=90
 ## 3. Parameter（設定値）を操作する
 
 サーバ（ターミナル1）を起動したまま、別ターミナルで操作します。
+
+![図4: パラメータの set / get / バリデーション](images/fig4_param_set_get.png)
+
+*図4: パラメータの set（変更）/ get（取得）と、不正値を弾くバリデーション*
 
 ### 3-1. パラメータの一覧を見る
 
@@ -237,6 +258,10 @@ ros2 param set /auto_charge_server charge_step -1
 ## 4. パラメータコールバックの体験（param_talker）
 
 「パラメータが変更された瞬間に、ノードの動作を切り替える」例です。
+
+![図5: パラメータコールバック](images/fig5_param_callback.png)
+
+*図5: パラメータ変更をコールバックで受け取り、動作に即反映する流れ*
 
 ### 4-1.【ターミナル1】param_talker を起動
 
